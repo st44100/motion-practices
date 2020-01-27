@@ -6,25 +6,24 @@ class Ball {
     y,
     w,
     h,
-    speed
+    speed,
+    direction
   }) {
     this.x = x || 0;
     this.y = y || 0;
     this.h = h || 10;
     this.w = w || 10;
-    this.speed = speed || 0;
+    this.speed = speed;
+    this.direction = direction === undefined ? 1 : -1;
+    this.delta = 0.2;
   }
 
   update(dSpeed) {
-    this.speed -= dSpeed;
+    this.speed -= this.delta;
     if (this.speed < 0) {
       this.speed = 0;
     }
-    this.y = this.y + this.speed;
-
-    if (this.y > height) {
-      this.y = 0;
-    }
+    this.y = this.y + this.speed * this.direction;
   }
 
   draw() {
@@ -37,6 +36,14 @@ class Ball {
 
   setSpeed(speed) {
     this.speed = speed;
+  }
+
+  setDelta(delta) {
+    this.delta = delta;
+  }
+
+  toggleDirection() {
+    this.direction = -1 * this.direction;
   }
 
   getPos() {
@@ -81,13 +88,14 @@ function draw() {
     (posBall1.x + posBall1.w) <= (posBall2.x + posBall2.w) &&
     posBall1.y + posBall1.h >= posBall2.y
   ) {
+    Ball1.toggleDirection();
+    Ball1.setSpeed(5);
     Ball2.setSpeed(5);
-    Ball1.setSpeed(0);
-  } else {
-    Ball2.update(0);
+    Ball2.setDelta(0.1);
+    Ball1.setDelta(0.1);
   }
-  Ball1.update(0.2);
-  Ball2.update(0.2);
+  Ball1.update();
+  Ball2.update();
 
   Ball1.draw();
   Ball2.draw();
