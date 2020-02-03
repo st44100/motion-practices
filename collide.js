@@ -11,8 +11,8 @@ class Ball {
     speed,
     direction
   }) {
-    this.x = x || 0;
-    this.y = y || 0;
+    // use p5.Vector
+    this.position = createVector(x, y);
     this.h = h || 10;
     this.w = w || 10;
     this.speed = speed;
@@ -21,17 +21,20 @@ class Ball {
   }
 
   update(dSpeed) {
+    const y = this.position.y;
     this.speed -= this.delta;
     if (this.speed < 0) {
       this.speed = 0;
     }
-    this.y = this.y + this.speed * this.direction;
+    y + this.speed * this.direction;
+
+    this.position.set(this.position.x, y + this.speed * this.direction);
   }
 
   draw() {
     ellipse(
-      this.x,
-      this.y,
+      this.position.x,
+      this.position.y,
       this.w
     );
   }
@@ -50,15 +53,22 @@ class Ball {
 
   getPos() {
     return {
-      x: this.x,
-      y: this.y,
+      x: this.position.x,
+      y: this.position.y,
       w: this.w,
       h: this.h
     }
   }
 }
 
-const Ball1 = new Ball({
+let Ball1 = null;
+let Ball2 = null;
+let Ball3 = null;
+
+function setup() {
+  createCanvas(CANVAS_W, CANVAS_H);
+  stroke(255);
+Ball1 = new Ball({
   x: (CANVAS_W + 20)/2,
   y: 20,
   h: 20,
@@ -66,7 +76,7 @@ const Ball1 = new Ball({
   speed: 10
 });
 
-const Ball2 = new Ball({
+Ball2 = new Ball({
   x: (CANVAS_W + 20)/2,
   y: 200,
   h: 20,
@@ -74,7 +84,7 @@ const Ball2 = new Ball({
   speed: 0
 });
 
-const Ball3 = new Ball({
+Ball3 = new Ball({
   x: 20,
   y: 20,
   h: 20,
@@ -83,9 +93,6 @@ const Ball3 = new Ball({
 });
 
 
-function setup() {
-  createCanvas(CANVAS_W, CANVAS_H);
-  stroke(255);
 }
 
 function draw() {
