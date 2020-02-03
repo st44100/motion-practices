@@ -1,5 +1,7 @@
 const CANVAS_W = 720;
 const CANVAS_H = 320;
+
+
 class Ball {
   constructor({
     x,
@@ -56,7 +58,7 @@ class Ball {
   }
 }
 
-let Ball1 = new Ball({
+const Ball1 = new Ball({
   x: (CANVAS_W + 20)/2,
   y: 20,
   h: 20,
@@ -64,13 +66,22 @@ let Ball1 = new Ball({
   speed: 10
 });
 
-let Ball2 = new Ball({
+const Ball2 = new Ball({
   x: (CANVAS_W + 20)/2,
   y: 200,
   h: 20,
   w: 20,
   speed: 0
 });
+
+const Ball3 = new Ball({
+  x: 20,
+  y: 20,
+  h: 20,
+  w: 20,
+  speed: 0
+});
+
 
 function setup() {
   createCanvas(CANVAS_W, CANVAS_H);
@@ -99,4 +110,5 @@ function draw() {
 
   Ball1.draw();
   Ball2.draw();
+  Ball3.draw();
 }
