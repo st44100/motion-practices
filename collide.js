@@ -8,36 +8,46 @@ class Ball {
     y,
     w,
     h,
-    speed,
+    velocity,
     direction
   }) {
-    this.x = x || 0;
-    this.y = y || 0;
+    // use p5.Vector
+    this.position = createVector(x, y);
     this.h = h || 10;
     this.w = w || 10;
-    this.speed = speed;
+    this.velocity = velocity;
     this.direction = direction === undefined ? 1 : -1;
     this.delta = 0.2;
+
+    // store direction as vector
+    this.vector = createVector(0, 1);
   }
 
-  update(dSpeed) {
-    this.speed -= this.delta;
-    if (this.speed < 0) {
-      this.speed = 0;
+  update() {
+    const y = this.position.y;
+    this.velocity -= this.delta;
+    if (this.velocity < 0) {
+      this.velocity = 0;
     }
-    this.y = this.y + this.speed * this.direction;
+    y + this.velocity * this.direction;
+
+    this.position.set(
+      this.position.x,
+      y + this.velocity * this.direction
+    );
+
   }
 
   draw() {
     ellipse(
-      this.x,
-      this.y,
+      this.position.x,
+      this.position.y,
       this.w
     );
   }
 
-  setSpeed(speed) {
-    this.speed = speed;
+  setVelocity(velocity) {
+    this.velocity = velocity;
   }
 
   setDelta(delta) {
@@ -50,42 +60,44 @@ class Ball {
 
   getPos() {
     return {
-      x: this.x,
-      y: this.y,
+      x: this.position.x,
+      y: this.position.y,
       w: this.w,
       h: this.h
     }
   }
 }
 
-const Ball1 = new Ball({
-  x: (CANVAS_W + 20)/2,
-  y: 20,
-  h: 20,
-  w: 20,
-  speed: 10
-});
-
-const Ball2 = new Ball({
-  x: (CANVAS_W + 20)/2,
-  y: 200,
-  h: 20,
-  w: 20,
-  speed: 0
-});
-
-const Ball3 = new Ball({
-  x: 20,
-  y: 20,
-  h: 20,
-  w: 20,
-  speed: 0
-});
-
+let Ball1 = null;
+let Ball2 = null;
+let Ball3 = null;
 
 function setup() {
   createCanvas(CANVAS_W, CANVAS_H);
   stroke(255);
+  Ball1 = new Ball({
+    x: (CANVAS_W + 20)/2,
+    y: 20,
+    h: 20,
+    w: 20,
+    velocity: 10
+  });
+
+  Ball2 = new Ball({
+    x: (CANVAS_W + 20)/2,
+    y: 200,
+    h: 20,
+    w: 20,
+    velocity: 0
+  });
+
+  Ball3 = new Ball({
+    x: 20,
+    y: 20,
+    h: 20,
+    w: 20,
+    velocity: 0
+  });
 }
 
 function draw() {
@@ -100,8 +112,8 @@ function draw() {
     posBall1.y + posBall1.h >= posBall2.y
   ) {
     Ball1.toggleDirection();
-    Ball1.setSpeed(5);
-    Ball2.setSpeed(5);
+    Ball1.setVelocity(5);
+    Ball2.setVelocity(5);
     Ball2.setDelta(0.1);
     Ball1.setDelta(0.1);
   }
