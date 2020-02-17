@@ -9,32 +9,34 @@ class Ball {
     w,
     h,
     velocity,
-    direction
   }) {
     // use p5.Vector
     this.position = createVector(x, y);
     this.h = h || 10;
     this.w = w || 10;
-    this.velocity = velocity;
-    this.direction = direction === undefined ? 1 : -1;
-    this.delta = 0.2;
 
     // store direction as vector
-    this.vector = createVector(0, 1);
+    this.vector = createVector(0.2, 1);
+    this.velocity = velocity;
   }
 
   update() {
-    const y = this.position.y;
-    this.velocity -= this.delta;
-    if (this.velocity < 0) {
-      this.velocity = 0;
-    }
-    y + this.velocity * this.direction;
+    // const y = this.position.y;
 
-    this.position.set(
-      this.position.x,
-      y + this.velocity * this.direction
-    );
+    // if (this.velocity < 0) {
+    //   this.velocity = 0;
+    // }
+    // y + this.velocity * this.direction;
+
+    // this.position.set(
+    //   this.position.x,
+    //   y + this.velocity * this.direction
+    // );
+
+    const delta = this.vector.add(this.vector.mult(this.velocity / 20));
+    console.log(this.velocity / 20);
+
+    this.position.add(delta);
 
   }
 
@@ -50,12 +52,8 @@ class Ball {
     this.velocity = velocity;
   }
 
-  setDelta(delta) {
-    this.delta = delta;
-  }
-
   toggleDirection() {
-    this.direction = -1 * this.direction;
+    this.vector.set(this.vector.mult(-1));
   }
 
   getPos() {
@@ -90,14 +88,6 @@ function setup() {
     w: 20,
     velocity: 0
   });
-
-  Ball3 = new Ball({
-    x: 20,
-    y: 20,
-    h: 20,
-    w: 20,
-    velocity: 0
-  });
 }
 
 function draw() {
@@ -112,15 +102,12 @@ function draw() {
     posBall1.y + posBall1.h >= posBall2.y
   ) {
     Ball1.toggleDirection();
-    Ball1.setVelocity(5);
-    Ball2.setVelocity(5);
-    Ball2.setDelta(0.1);
-    Ball1.setDelta(0.1);
+    Ball1.setVelocity(10);
+    Ball2.setVelocity(10);
   }
   Ball1.update();
   Ball2.update();
 
   Ball1.draw();
   Ball2.draw();
-  Ball3.draw();
 }
