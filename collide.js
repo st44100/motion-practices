@@ -22,6 +22,11 @@ class Ball {
 
   update() {
     // const y = this.position.y;
+    this.speed -= this.delta;
+    if (this.speed < 0) {
+      this.speed = 0;
+    }
+    y + this.speed * this.direction;
 
     // if (this.velocity < 0) {
     //   this.velocity = 0;
@@ -79,7 +84,24 @@ function setup() {
     h: 20,
     w: 20,
     velocity: 10
+});
+
+Ball2 = new Ball({
+  x: (CANVAS_W + 20)/2,
+  y: 200,
+  h: 20,
+  w: 20,
+  speed: 0
   });
+
+Ball3 = new Ball({
+  x: 20,
+  y: 20,
+  h: 20,
+  w: 20,
+  speed: 0
+});
+
 
   Ball2 = new Ball({
     x: (CANVAS_W + 20)/2,
